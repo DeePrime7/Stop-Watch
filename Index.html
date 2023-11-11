@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100vh;
+            background: url(timer\ bg.png) no-repeat center center/ cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container{
+            width: 60%;
+            height: 250px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 0 3px;
+        }
+        #timer{
+            width: 100%;
+            font-size: 72px;
+            text-align: center;
+            margin: 8px auto;
+            padding: 35px;
+        }
+        .buttons{
+            text-align: center;
+        }
+        button{
+            margin: 0 10px;
+        }
+        #play ,#reset{
+            display: inline-block;
+            border-radius: 10px;
+        }
+        
+        #startStopBtn ,#resetBtn{
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div id="timer">
+            00:00:00
+        </div>
+
+        <div class="buttons">
+            <div id="startStopBtn">
+                <img src="pause play.png" width="50px" id="play">
+            </div>
+
+            <div id="resetBtn">
+                <img src="restart.png" width="50px" id="reset">
+            </div>
+        </div>
+        
+    </div>
+
+
+
+
+<script>
+
+//variable for buttons
+
+const startStopBtn = document.querySelector('#startStopBtn')
+
+const resetBtn = document.querySelector('#resetBtn')
+
+
+//variable for  time values
+
+let seconds = 0
+let minutes = 0
+let hours = 0
+
+
+//variable for leading zero
+
+let leadingSeconds = 0
+let leadingMinutes = 0
+let leadingHours = 0
+
+
+//Variable for set interval & timerstatus
+
+let timerInterval = null
+let timerStatus = "stopped"
+
+//Stop Watch Function
+
+
+function stopWatch() {
+    seconds++
+
+    if (seconds/60 === 1) {
+        seconds = 0
+        minutes++
+
+        if (minutes / 60 === 1) {
+            minutes = 0
+            hours++
+        }
+    }
+
+    if (seconds < 10) {
+        leadingSeconds = '0' + seconds.toString()
+    }else{
+        leadingSeconds = seconds
+    }
+    if (minutes < 10) {
+        leadingMinutes = '0' + minutes.toString()
+    }else{
+        leadingMinutes = minutes
+    }
+    if (hours < 10) {
+        leadingHours = '0' + hours.toString()
+    }else{
+        leadingHours = hours
+    }
+
+    let displayTimer = document.getElementById('timer').innerText =
+    leadingHours + ':' + leadingMinutes + ':' + leadingSeconds
+}
+
+
+
+startStopBtn.addEventListener('click', function () {
+    if (timerStatus === "stopped") {
+        timerInterval = window.setInterval(stopWatch, 1000)
+        document.getElementById('startStopBtn').innerHTML ='<img src = "play.png" width="50px" id="play" />'
+        timerStatus ="started"
+    }else{
+        window.clearInterval(timerInterval)
+        document.getElementById("startStopBtn").innerHTML = '<img src="pause play.png" width="50px" id="play" />'
+        timerStatus = "stopped"
+    }
+})
+
+
+
+resetBtn.addEventListener('click', function () {
+    window.clearInterval(timerInterval)
+    seconds = 0
+    minutes = 0
+    hours = 0
+
+    document.getElementById('timer').innerHTML = "00:00:00"
+})
+
+
+
+</script>
+
+
+
+</body>
+</html>
